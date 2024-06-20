@@ -1,0 +1,97 @@
+.ck-editor__editable {
+    min-height: 300px;
+}
+
+.my-dropdown-item:hover {
+    background-color: #f8f9fa !important;
+    color: #343a40;
+}
+
+.custom-nav-dropdown .dropdown-toggle::after {
+    display: none;
+}
+
+
+
+.overlay {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 100000;
+    top: 0;
+    left: 0;
+    background-color: white;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+.overlay.active {
+    width: 100%;
+}
+
+.overlay-content {
+    padding: 30px;
+    position: relative;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.overlay-content .nav-link {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 25px;
+    color: black;
+    display: block;
+    transition: 0.3s;
+}
+
+.overlay-content .nav-link:hover {
+    color: #f1f1f1;
+}
+
+.closebtn {
+    position: absolute;
+    top: -227px;
+    right: 30px;
+    font-size: 40px;
+    width: 50px;
+}
+
+.overlay .dropdown-menu {
+    display: block;
+    position: static;
+    float: none;
+    background-color: #f8f9fa;
+    border: none;
+    box-shadow: none;
+    margin-left: 30px !important;
+}
+
+
+/* Toast message*/
+
+.custom-confirm-toast-theme {
+    --confirm-toast-bg: aquamarine;
+    --confirm-toast-box-shadow: 0 0 1px 4px purple;
+    --confirm-toast-text-color: purple;
+    --confirm-toast-icon-color: black;
+    --confirm-toast-btn-yes-bg: green;
+    --confirm-toast-btn-yes-color: lightgreen;
+    --confirm-toast-btn-no-bg: yellow;
+    --confirm-toast-btn-no-color: black;
+    --confirm-toast-btn-hover: brightness(0.9);
+    --confirm-toast-btn-yes-focus: 2px solid orange;
+    --confirm-toast-btn-no-focus: 2px solid orange;
+    --confirm-toast-btn-close-focus: 2px solid red;
+    --confirm-toast-btn-no-disabled: opacity(0.6);
+    --confirm-toast-btn-yes-disabled: opacity(0.6);
+}
+
+
+.total-paid {
+    font-family: Arial, sans-serif;
+    font-size: 1em;
+
+}

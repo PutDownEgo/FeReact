@@ -1,0 +1,47 @@
+.divContainer {
+    margin-left: 250px;
+    margin-top: 80px;
+    width: 80%;
+}
+
+@media (max-width: 768px) {
+    .divContainer {
+        margin-left: 0;
+    }
+}
+
+.link {
+    font-size: 16px;
+    color: #4154f1;
+}
+
+.activeLink {
+    color: #ff0000;
+
+}
+
+.responsiveContainer {
+    margin-left: 102px;
+}
+
+/* Responsive style for mobile devices */
+@media (max-width: 576px) {
+
+    /* Adjust max-width based on your mobile breakpoint */
+    .responsiveContainer {
+        margin-left: 0;
+        /* Removes the margin-left */
+        margin-inline-start: 3rem;
+        /* Bootstrap's ms-5 equivalent if using raw CSS */
+    }
+
+    .divContainer {
+        margin-left: 0;
+        /* Removes the left margin */
+        width: 90%;
+        /* Sets the width to 100% */
+        /* Optionally adjust the top margin if needed */
+        margin-top: 100px;
+        /* Example: halve the top margin, adjust as needed */
+    }
+}
