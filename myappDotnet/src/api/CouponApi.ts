@@ -28,7 +28,6 @@ export const getAllCoupons = async (): Promise<ResponseData<Coupon>> => {
 export const getCouponByCode = async (code: string): Promise<ResponseData1<Coupon>> => {
     try {
         const response = await privateApi.get<ResponseData1<Coupon>>(`/api/v1/coupons/code/${code}`);
-        if (response.data.code !== 1000) throw new Error("Error");
 
         return response.data;
     } catch (error) {

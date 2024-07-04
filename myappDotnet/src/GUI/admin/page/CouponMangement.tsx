@@ -161,6 +161,7 @@ function CouponMangement() {
                 rowSelection="multiple"
                 // onRowClicked={onRowClicked}
                 onRowSelected={onSelectionChanged}
+                copyHeadersToClipboard={true}
 
             />
             <CreateCouponModal

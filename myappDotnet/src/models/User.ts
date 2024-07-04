@@ -9,7 +9,19 @@ export const UserRequestSchema = z.object({
     username: z.string()
         .min(8, { message: "Username must be at least 8 characters long" }),
     password: z.string()
-        .min(8, { message: "Password must be at least 8 characters long" }),
+        .min(8, { message: "Password must be at least 8 characters long" })
+        .refine(value => /[a-z]/.test(value), {
+            message: "Password must contain at least one lowercase letter ('a'-'z')",
+            path: ['password']
+        })
+        .refine(value => /[A-Z]/.test(value), {
+            message: "Password must contain at least one uppercase letter ('A'-'Z')",
+            path: ['password']
+        })
+        .refine(value => /\W|_/.test(value), {
+            message: "Password must contain at least one non-alphanumeric character",
+            path: ['password']
+        }),
     firstName: z.string()
         .min(1, { message: "First name must not be empty" }),
     lastName: z.string()
@@ -23,7 +35,7 @@ export const UserRequestSchema = z.object({
         .refine((date) => date <= new Date(), {
             message: "Date of birth must be a past date."
         }),
-    gender: GenderEnum
+    gender: z.enum(['FEMALE', 'MALE', 'OTHER'])
 });
 
 export type UserRequest = z.infer<typeof UserRequestSchema>;
@@ -69,7 +81,7 @@ export const UpdateUserRequestSchema = z.object({
         .min(1, { message: "First name must not be empty" }),
     lastName: z.string()
         .min(1, { message: "Last name must not be empty" }),
-    email: z.string()
+    emailAddress: z.string()
         .email({ message: "Invalid email address" }),
     address: z.string()
         .min(1, { message: "Address must not be empty" }),

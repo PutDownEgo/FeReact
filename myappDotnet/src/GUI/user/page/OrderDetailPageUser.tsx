@@ -12,7 +12,7 @@ import {
     MDBTypography,
 } from "mdb-react-ui-kit";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getOrderById, updateOrder } from "../../../api/OrderApi";
 import useCurrencyFormatter from "../../../hooks/useCurrencyFormatter";
 import { Order, OrderStatus } from '../../../models/Order';
@@ -25,6 +25,7 @@ function OrderDetailPageUser() {
     const formatCurrency = useCurrencyFormatter();
     const [order, setOrder] = useState<Order>();
     const orderIdNumber = Number(orderId) || 0;
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const showToastMessage = useCustomToast();
     const [orderStatus, setOrderStatus] = useState<OrderStatus[]>([OrderStatus.CANCELED, OrderStatus.DELIVERED, OrderStatus.PENDING]);
@@ -35,11 +36,19 @@ function OrderDetailPageUser() {
             if (data) {
                 setOrder(data);
                 countTheMoneyDiscount();
+            } else {
+                showToastMessage("Failed to fetch order", "error");
+                navigate("/user/orders")
             }
         };
 
         fetchOrder();
+
     }, [orderId]);
+
+
+
+
 
 
     const countTheMoneyDiscount = () => {
@@ -62,6 +71,7 @@ function OrderDetailPageUser() {
     const fetchOrderById = async (orderId: number) => {
         try {
             const response = await getOrderById(orderId);
+            console.log("Order detail:", response.result);
             return response.result;
 
         } catch (error) {

@@ -163,9 +163,7 @@ const Checkout = () => {
     const applyCoupon = async (code: string) => {
         try {
             const response = await getCouponByCode(code);
-            if (response.code !== 1000) {
-                return;
-            }
+
             setValue('couponCode', code);
             doSetCoupon(response.result);
             handleCountDiscount(subtotal, response.result);

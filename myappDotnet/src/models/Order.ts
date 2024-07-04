@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { Coupon } from './Coupon';
+import { create } from 'lodash';
 
 export enum OrderStatus {
     PENDING = "PENDING",
@@ -24,6 +25,7 @@ export interface Order {
     orderItems?: OrderItem[];
     orderStatus?: OrderStatus;
     coupon: Coupon;
+    createDate: Date;
 }
 
 

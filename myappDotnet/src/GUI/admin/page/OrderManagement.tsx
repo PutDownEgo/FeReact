@@ -37,8 +37,8 @@ function OrderManagement() {
     const fetchOrders = async () => {
         try {
             const response = await getAllOrders();
-            setRowData(response.result.content);
-            return response.result.content;
+            setRowData(response.result);
+            return response.result;
 
         } catch (error) {
             console.error("Failed to fetch products:", error);

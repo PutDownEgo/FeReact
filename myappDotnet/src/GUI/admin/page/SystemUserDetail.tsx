@@ -27,7 +27,7 @@ function SystemUserDetail() {
         defaultValues: {
             firstName: '',
             lastName: '',
-            email: '',
+            emailAddress: '',
             address: '',
             phoneNumber: '',
             dateOfBirth: new Date(1990, 1, 1),
@@ -76,7 +76,7 @@ function SystemUserDetail() {
     const setEditUser = (user: User) => {
         setValue('firstName', user.firstName);
         setValue('lastName', user.lastName);
-        setValue('email', user.email);
+        setValue('emailAddress', user.email);
         setValue('address', user.address);
         setValue('phoneNumber', user.phoneNumber);
         setValue('dateOfBirth', user.dateOfBirth);
@@ -225,11 +225,11 @@ function SystemUserDetail() {
                                     <input
                                         type="text"
                                         className="form-control"
-                                        {...register("email")}
+                                        {...register("emailAddress")}
                                         required
                                     />
-                                    {errors.email &&
-                                        <div className="text-danger small">{errors.email.message}</div>}
+                                    {errors.emailAddress &&
+                                        <div className="text-danger small">{errors.emailAddress.message}</div>}
                                 </div>
                                 <div className="col-md-6 mt-3">
                                     <label className="form-label">Date Of Birth</label>

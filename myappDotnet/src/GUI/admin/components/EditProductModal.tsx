@@ -26,7 +26,7 @@ function EditProductModal({ isShow, onHide, productId, onProductUpdate }: EditPr
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [productStatus, setProductStatus] = useState<ProductStatus[]>([ProductStatus.ACTIVE, ProductStatus.INACTIVE]);
     const [isLoading, setIsLoading] = useState(false);
-
+    const showToastMessage = useCustomToast();
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const { control, register, handleSubmit, reset, formState: { errors }, setValue } = useForm<UpdateProductRequest>({
         mode: 'all',
@@ -114,7 +114,8 @@ function EditProductModal({ isShow, onHide, productId, onProductUpdate }: EditPr
         formData.append("description", data.description);
         formData.append("categoryId", data.categoryId.toString());
         formData.append("quantity", data.quantity.toString());
-        formData.append("productStatus", data.productStatus);
+        formData.append("productStatus", data.productStatus.toString());
+        
         if (selectedFile)
             formData.append('image', selectedFile);
 
@@ -127,9 +128,8 @@ function EditProductModal({ isShow, onHide, productId, onProductUpdate }: EditPr
             resetFormState();
             onProductUpdate();
             onHide();
-        } catch (error) {
-            toast.error('Error updating product.');
-            console.error('Error updating product:', error);
+        } catch (error: any) {
+            showToastMessage(error.message, 'error');
         } finally {
             setIsLoading(false);
         }

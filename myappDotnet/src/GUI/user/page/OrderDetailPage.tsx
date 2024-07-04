@@ -29,6 +29,7 @@ function OrderDetailPage() {
         const fetchOrder = async () => {
             const data = await fetchOrderById(orderIdNumber);
             if (data) {
+                console.log("Order detail:", data);
                 setOrder(data);
                 countTheMoneyDiscount();
             }
@@ -54,6 +55,7 @@ function OrderDetailPage() {
     const fetchOrderById = async (orderId: number) => {
         try {
             const response = await getOrderById(orderId);
+
             return response.result;
 
         } catch (error) {

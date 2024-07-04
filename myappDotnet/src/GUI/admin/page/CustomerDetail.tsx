@@ -12,7 +12,7 @@ import useCustomToast from '../../../util/UseCustomToast';
 
 function CustomerDetail() {
     const { id } = useParams();
-    const userIdNumber = Number(id) || 0;
+
     const [userStatus, setUserStatus] = useState<UserStatus[]>([UserStatus.ACTIVE, UserStatus.INACTIVE]);
     const showToastMessage = useCustomToast();
     const [user, setUser] = useState<User>();
@@ -26,7 +26,7 @@ function CustomerDetail() {
         defaultValues: {
             firstName: '',
             lastName: '',
-            email: '',
+            emailAddress: '',
             address: '',
             phoneNumber: '',
             dateOfBirth: new Date(1990, 1, 1),
@@ -40,7 +40,7 @@ function CustomerDetail() {
 
         const fetchUser = async () => {
             try {
-                const data = await fetchUserById(userIdNumber);
+                const data = await fetchUserById(id?.toString() || '');
                 if (data) {
                     setUser(data);
                 } else {
@@ -52,11 +52,11 @@ function CustomerDetail() {
         };
 
         fetchUser();
-    }, [userIdNumber]);
+    }, [id]);
 
-    const fetchUserById = async (userId: number) => {
+    const fetchUserById = async (userId: string) => {
         try {
-            const response = await getUserById(userId);
+            const response = await getUserById(id?.toString() || '');
             setEditUser(response.result);
             return response.result;
 
@@ -68,7 +68,7 @@ function CustomerDetail() {
     const setEditUser = (user: User) => {
         setValue('firstName', user.firstName);
         setValue('lastName', user.lastName);
-        setValue('email', user.email);
+        setValue('emailAddress', user.email);
         setValue('address', user.address);
         setValue('phoneNumber', user.phoneNumber);
         setValue('dateOfBirth', user.dateOfBirth);
@@ -104,10 +104,10 @@ function CustomerDetail() {
             formData.append('file', selectedFile);
 
         try {
-            const response = await updateUserProfileById(userIdNumber, formData);
+            const response = await updateUserProfileById(id?.toString() || '', formData);
             showToastMessage('User updated successfully', 'success');
             resetFormState();
-            fetchUserById(userIdNumber)
+            fetchUserById(id?.toString() || '')
         } catch (error) {
             showToastMessage('Error updating user', 'error');
             console.error('Error updating user:', error);
@@ -195,11 +195,11 @@ function CustomerDetail() {
                                             type="text"
                                             className="form-control"
 
-                                            {...register("email")}
+                                            {...register("emailAddress")}
                                             required
                                         />
-                                        {errors.email &&
-                                            <div className="text-danger small">{errors.email.message}</div>}
+                                        {errors.emailAddress &&
+                                            <div className="text-danger small">{errors.emailAddress.message}</div>}
                                     </div>
                                     <div className="col-md-6 mt-3">
                                         <label className="form-label">Date Of Birth</label>

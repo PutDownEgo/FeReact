@@ -19,7 +19,7 @@ export const createOrder = async (order: Order): Promise<ResponseData1<OrderRequ
 
 export const createOrderWithPayment = async (order: Order): Promise<String> => {
     try {
-        const response = await privateApi.post<String>('/api/v1/vnpayment/neworder', order);
+        const response = await privateApi.post<String>('/api/v1/payment/neworder', order);
 
         return response.data;
     } catch (error) {
@@ -41,11 +41,9 @@ export const createOrderWithPayment2 = async (url: String): Promise<ResponseData
     }
 }
 
-export const getAllOrders = async (): Promise<ResponseData1<ResultOrder>> => {
+export const getAllOrders = async (): Promise<ResponseData<Order>> => {
     try {
-        const response = await privateApi.get<ResponseData1<ResultOrder>>('/api/v1/orders');
-        console.log(response);
-        if (response.data.code !== 1000) throw new Error("Error");
+        const response = await privateApi.get<ResponseData<Order>>('/api/v1/orders');
 
         return response.data;
     } catch (error) {
@@ -96,7 +94,7 @@ export const updateOrder = async (orderId: number, status: OrderStatus): Promise
 export const getOrderByUser = async (): Promise<ResponseData<Order>> => {
     try {
         const response = await privateApi.get<ResponseData<Order>>(`/api/v1/orders/user`);
-        if (response.data.code !== 1000) throw new Error("Error");
+
 
         return response.data;
     } catch (error) {
@@ -110,7 +108,7 @@ export const getOrderByUser = async (): Promise<ResponseData<Order>> => {
 export const getNumsOfOrderDaily = async (): Promise<ResponseData1<number>> => {
     try {
         const response = await privateApi.get<ResponseData1<number>>(`/api/v1/orders/daily-sales`);
-        if (response.data.code !== 1000) throw new Error("Error");
+
 
         return response.data;
     } catch (error) {
@@ -124,7 +122,7 @@ export const getNumsOfOrderDaily = async (): Promise<ResponseData1<number>> => {
 export const getRevenueMonthly = async (): Promise<ResponseData<SalesMonthlyData>> => {
     try {
         const response = await privateApi.get<ResponseData<SalesMonthlyData>>(`/api/v1/orders/monthly-sales`);
-        if (response.data.code !== 1000) throw new Error("Error");
+
 
         return response.data;
     } catch (error) {
@@ -138,7 +136,7 @@ export const getRevenueMonthly = async (): Promise<ResponseData<SalesMonthlyData
 export const getRevenueAtCurrentMonth = async (): Promise<ResponseData1<number>> => {
     try {
         const response = await privateApi.get<ResponseData1<number>>(`/api/v1/orders/monthly-sales-revenue`);
-        if (response.data.code !== 1000) throw new Error("Error");
+        console.log("data", response.data)
 
         return response.data;
     } catch (error) {

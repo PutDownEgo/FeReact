@@ -25,9 +25,10 @@ const UserProfilePage: React.FC = () => {
         defaultValues: {
             firstName: '',
             lastName: '',
-            email: '',
+            emailAddress: '',
             address: '',
             phoneNumber: '',
+            status: UserStatus.ACTIVE,
             dateOfBirth: new Date(1990, 1, 1),
             gender: GenderEnum.parse('MALE')
 
@@ -52,16 +53,19 @@ const UserProfilePage: React.FC = () => {
             console.error('Error fetching product:', error);
         }
     };
+    console.log("errros ne cha", errors)
 
     const setEditUser = (user: User) => {
         setValue('firstName', user.firstName);
         setValue('lastName', user.lastName);
-        setValue('email', user.email);
-        setValue('address', user.address);
+        setValue('emailAddress', user.email);
+        setValue('address', address);
         setValue('phoneNumber', user.phoneNumber);
         setValue('dateOfBirth', user.dateOfBirth);
+        setValue("gender", user.gender);
         setAddress(user.address);
         setCurrenUser(user);
+
         setProfileImage(user.avatar || "/avatar.jpg");
     };
 
@@ -86,9 +90,16 @@ const UserProfilePage: React.FC = () => {
     const onSubmit = async (data: UpdateUserRequest) => {
 
         const formData = new FormData();
-        formData.append('user', JSON.stringify(data));
+        formData.append('firstName', data.firstName);
+        formData.append('lastName', data.lastName);
+        formData.append('emailAddress', data.emailAddress);
+        formData.append('address', address);
+        formData.append('phoneNumber', data.phoneNumber);
+        formData.append('status', UserStatus.ACTIVE);
+        formData.append('dateOfBirth', data.dateOfBirth.toISOString());
+        formData.append('gender', data.gender);
         if (selectedFile)
-            formData.append('file', selectedFile);
+            formData.append('image', selectedFile);
 
         try {
             await updateUser(formData);
@@ -178,13 +189,13 @@ const UserProfilePage: React.FC = () => {
                                             type="text"
                                             className="form-control"
 
-                                            {...register("email")}
+                                            {...register("emailAddress")}
                                             required
                                         />
-                                        {errors.email &&
-                                            <div className="text-danger small">{errors.email.message}</div>}
+                                        {errors.emailAddress &&
+                                            <div className="text-danger small">{errors.emailAddress.message}</div>}
                                     </div>
-                                    <div className="col-md-12 mt-3">
+                                    <div className="col-md-6 mt-3">
                                         <label className="form-label">Date Of Birth</label>
                                         <Controller
                                             name="dateOfBirth"
@@ -203,6 +214,20 @@ const UserProfilePage: React.FC = () => {
                                         {errors.dateOfBirth &&
                                             <div className="text-danger small">{errors.dateOfBirth.message}</div>}
                                     </div>
+
+                                    <div className="col-md-6 mt-3">
+                                        <label className="form-label" >Gender<span>*</span></label>
+                                        <div
+                                        >
+                                            <select className="form-select"  {...register("gender")}>
+                                                <option value="MALE">Male</option>
+                                                <option value="FEMALE">Female</option>
+                                                <option value="OTHER">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
                                     <div className="col-md-12 mt-3">
                                         <label className="form-label">Address <sup>*</sup></label>
                                         <LocationSelector onAddressChange={setAddress} />

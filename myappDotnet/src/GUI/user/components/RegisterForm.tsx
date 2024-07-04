@@ -68,8 +68,15 @@ const RegisterForm = ({ switchToLogin }: RegisterFormProps) => {
             customResetDefault();
             switchToLogin();
         } catch (error: any) {
-            showToast(`${error} `, 'error');
-            console.error('Error create account:', error);
+            let errorMessage = 'Error creating account.';
+
+            if (error.response && error.response.data && error.response.data.length > 0) {
+                const firstError = error.response.data[0];
+                errorMessage = firstError.description || 'Unknown error.';
+            }
+
+            showToast(errorMessage, 'error');
+            console.error('Error creating account:', error);
             setCurrIndex(0);
 
         }

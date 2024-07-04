@@ -8,65 +8,65 @@ import { Link } from 'react-router-dom';
 
 
 function NotificationBell() {
-    const [notifications, setNotifications] = useState<Notification[]>([]);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const { user } = useAuth();
+    // const [notifications, setNotifications] = useState<Notification[]>([]);
+    // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    // const { user } = useAuth();
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        fetchNotification();
+    //     fetchNotification();
 
-        const socket = new SockJS(process.env.REACT_APP_API_ENDPOINT + "ws");
-        const stompClient = Stomp.over(socket);
+    //     const socket = new SockJS(process.env.REACT_APP_API_ENDPOINT + "ws");
+    //     const stompClient = Stomp.over(socket);
 
-        stompClient.connect({}, function (frame: any) {
-            console.log('Connected: ' + frame);
-            stompClient.subscribe(`/user/${user?.username}/queue/notification`, function (notification) {
-                const newNotification = JSON.parse(notification.body);
-                setNotifications(prevNotifications => [newNotification, ...prevNotifications]);
-            });
-        });
+    //     stompClient.connect({}, function (frame: any) {
+    //         console.log('Connected: ' + frame);
+    //         stompClient.subscribe(`/user/${user?.username}/queue/notification`, function (notification) {
+    //             const newNotification = JSON.parse(notification.body);
+    //             setNotifications(prevNotifications => [newNotification, ...prevNotifications]);
+    //         });
+    //     });
 
-        return () => {
-            if (stompClient !== null) {
-                stompClient.disconnect();
-            }
-            console.log("Disconnected");
-        };
-    }, []);
+    //     return () => {
+    //         if (stompClient !== null) {
+    //             stompClient.disconnect();
+    //         }
+    //         console.log("Disconnected");
+    //     };
+    // }, []);
 
-    const fetchNotification = async () => {
-        const response = await getAllNotificationByUser();
-        console.log("notifications ne ---", response.result)
-        setNotifications(response.result)
-    }
+    // const fetchNotification = async () => {
+    //     const response = await getAllNotificationByUser();
+    //     console.log("notifications ne ---", response.result)
+    //     setNotifications(response.result)
+    // }
 
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-    };
+    // const toggleDropdown = () => {
+    //     setIsDropdownOpen(!isDropdownOpen);
+    // };
 
-    const markAsSeen = async (notificationId: number, index: number) => {
-        const response = await markAsSeenNotification(notificationId);
-        if (response.code === 1000) {
-            setNotifications(prevNotifications => {
-                const newNotifications = [...prevNotifications];
-                newNotifications[index].seen = true;
-                return newNotifications;
-            });
-        }
-    };
+    // const markAsSeen = async (notificationId: number, index: number) => {
+    //     const response = await markAsSeenNotification(notificationId);
+    //     if (response.code === 1000) {
+    //         setNotifications(prevNotifications => {
+    //             const newNotifications = [...prevNotifications];
+    //             newNotifications[index].seen = true;
+    //             return newNotifications;
+    //         });
+    //     }
+    // };
 
     return (
         <div style={{ position: 'relative', display: 'inline-block' }}>
-            <div onClick={toggleDropdown} style={{ cursor: 'pointer', position: 'relative' }}>
+            <div style={{ cursor: 'pointer', position: 'relative' }}>
                 <i style={{ fontSize: "1.5em", color: "#81c408" }} className="bi bi-bell"></i>
-                {notifications.filter(notification => !notification.seen).length > 0 && (
-                    <span className="badge bg-primary badge-number">
-                        {notifications.filter(notification => !notification.seen).length}
-                    </span>
-                )}
+
+                <span className="badge bg-primary badge-number">
+
+                </span>
+
             </div>
-            {isDropdownOpen && (
+            {/* {isDropdownOpen && ( 
                 <div style={{
                     position: 'absolute',
                     top: '40px',
@@ -110,6 +110,7 @@ function NotificationBell() {
                 </div>
             )
             }
+            */}
         </div >
     );
 }

@@ -69,6 +69,7 @@ function OrderDetailModal({ isShow, onHide, orderId, onOrderUpdate }: EditOrderM
     const fetchOrderById = async (orderId: number) => {
         try {
             const response = await getOrderById(orderId);
+            console.log("Order detail:", response.result);
             return response.result;
 
         } catch (error) {

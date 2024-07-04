@@ -18,16 +18,12 @@ export const createNewUser = async (user: UserRequest): Promise<ResponseData1<Us
 
         return response.data;
 
-    } catch (error) {
-        const axiosError = error as AxiosError<BackendError>;
-        if (axiosError.response && axiosError.response.data) {
-            const backendError = axiosError.response.data;
-            console.error(`Error Code: ${backendError.code}, Message: ${backendError.message}`);
-            throw new Error(backendError.message);
-        } else {
-            console.error('An unexpected error occurred:', error);
-            throw new Error('An unexpected error occurred, please try again later.');
-        }
+    } catch (error: any) {
+        const errorMessage = error.response?.data?.errors
+            ? Object.values(error.response.data.errors).flat().join(' ')
+            : error.message || 'Error creating product.';
+
+        throw new Error(errorMessage);
     }
 }
 export const createNewSystemUser = async (formData: FormData): Promise<ResponseData1<User>> => {
@@ -137,7 +133,7 @@ export const updateUser = async (formData: FormData): Promise<ResponseData1<User
 
 }
 
-export const updateUserProfileById = async (userId: number, formData: FormData): Promise<ResponseData1<User>> => {
+export const updateUserProfileById = async (userId: string, formData: FormData): Promise<ResponseData1<User>> => {
     try {
         const response = await privateApi.put<ResponseData1<User>>('/api/v1/accounts/' + userId, formData);
         return response.data;
@@ -177,7 +173,7 @@ export const getAllAdmin = async (): Promise<ResponseData<User>> => {
 }
 
 
-export const getUserById = async (userId: number): Promise<ResponseData1<User>> => {
+export const getUserById = async (userId: string): Promise<ResponseData1<User>> => {
     try {
         const response = await privateApi.get<ResponseData1<User>>(`/api/v1/accounts/${userId}`);
         return response.data;

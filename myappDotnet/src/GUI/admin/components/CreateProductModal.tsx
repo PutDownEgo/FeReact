@@ -97,7 +97,7 @@ function CreateProductModal({ isShow, onHide, onProductCreate }: CreateProductMo
         formData.append("categoryId", data.categoryId.toString());
         formData.append("quantity", data.quantity.toString());
         formData.append("productStatus", data.productStatus);
-     
+
         formData.append('image', selectedFile);
 
         setIsLoading(true);
@@ -107,9 +107,12 @@ function CreateProductModal({ isShow, onHide, onProductCreate }: CreateProductMo
             resetFormState();
             onHide();
             onProductCreate();
-        } catch (error) {
-            toast.error('Error Created product.');
-            console.error('Error Created product:', error);
+        } catch (error: any) {
+            const errorMessage = error.response?.data?.errors
+                ? Object.values(error.response.data.errors).flat().join(' ')
+                : error.message || 'Error creating product.';
+
+            showToastMessage(errorMessage, 'error');
         } finally {
             setIsLoading(false);
         }

@@ -93,12 +93,16 @@ export const addProduct = async (formData: FormData): Promise<ResponseData1<Prod
             }
         });
 
-
-
         return response.data;
-    } catch (error) {
+    } catch (error: any) {
         console.error(error);
-        throw error;
+        if (error.response && error.response.data && error.response.data.errors) {
+            const validationErrors: any = error.response.data.errors;
+            const errorMessages = Object.values(validationErrors).flat().join(' ');
+            throw new Error(`Validation Error: ${errorMessages}`);
+        } else {
+            throw new Error('An unexpected error occurred.');
+        }
     }
 }
 
@@ -113,11 +117,13 @@ export const updateProduct = async (formData: FormData): Promise<ResponseData1<P
         });
 
 
-
         return response.data;
-    } catch (error) {
-        console.error(error);
-        throw error;
+    } catch (error: any) {
+        const errorMessage = error.response?.data?.errors
+            ? Object.values(error.response.data.errors).flat().join(' ')
+            : error.message || 'Error creating product.';
+
+        throw new Error(errorMessage);
     }
 }
 
